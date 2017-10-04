@@ -6,13 +6,13 @@ sealed trait Statement
 case class PrintStatement(expression: Expression) extends Statement
 
 sealed trait Expression extends Statement
-case class OperationExpression(ex1: Expression, op: Operation, ex2: Expression) extends Expression
+case class OperationExpression(ex1: Expression, op: Operator, ex2: Expression) extends Expression
 
-sealed trait Operation
-case class Equals() extends Operation
-case class NotEquals() extends Operation
-case class And() extends Operation
-case class Or() extends Operation
+sealed trait Operator
+case class Equals() extends Operator
+case class NotEquals() extends Operator
+case class And() extends Operator
+case class Or() extends Operator
 
 sealed trait Value extends Expression
 case class Number(number: Int) extends Value
@@ -39,5 +39,25 @@ object Parsers extends RegexParsers {
 
   def value: Parser[Value] = {
     number | booleanValue
+  }
+
+  def equals: Parser[Operator] = {
+    "==".r ^^ { _ => Equals() }
+  }
+
+  def notEquals: Parser[Operator] = {
+    "!=".r ^^ { _ => NotEquals() }
+  }
+
+  def and: Parser[Operator] = {
+    "&&".r ^^ { _ => And() }
+  }
+
+  def or: Parser[Operator] = {
+    "\\|\\|".r ^^ { _ => Or() }
+  }
+
+  def operator: Parser[Operator] = {
+    equals | notEquals | and | or
   }
 }
