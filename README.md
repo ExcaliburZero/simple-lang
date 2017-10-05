@@ -7,7 +7,7 @@ program ::= <statement> <program> ; NIL
 
 statement ::= <expression> ; "print " <expression>
 
-expression ::= <expression> " " <operator> " " <expression> ; <value>
+expression ::= "(" <expression> " " <operator> " " <expression> ")" ; <value>
 
 operator ::= "==" ; "!=" ; "&&" ; "||"
 

@@ -60,4 +60,13 @@ object Parsers extends RegexParsers {
   def operator: Parser[Operator] = {
     equals | notEquals | and | or
   }
+
+  def operationExpression: Parser[Expression] = {
+    "(" ~ expression ~ operator ~ expression ~ ")" ^^
+      { case _ ~ ex1 ~ op ~ ex2 ~ _ => OperationExpression(ex1, op, ex2) }
+  }
+
+  def expression: Parser[Expression] = {
+    operationExpression | value
+  }
 }

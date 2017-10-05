@@ -294,4 +294,57 @@ class ParsersTests extends FlatSpec with Matchers {
 
     output.successful shouldBe false
   }
+
+  /*
+   * Operation Expression
+   */
+  "Parsers.operationExpression" should "parse an operation expression" in {
+    val input = "(1 == true)"
+    val expected = OperationExpression(Number(1), Equals(), BooleanValue(true))
+
+    val output = Parsers.parse(Parsers.operationExpression, input)
+
+    output.successful shouldBe true
+    output.get shouldBe expected
+  }
+
+  it should "fail to parse a non-operation expression" in {
+    val input = "!="
+
+    val output = Parsers.parse(Parsers.operationExpression, input)
+
+    output.successful shouldBe false
+  }
+
+  /*
+   * Expression
+   */
+  "Parsers.expression" should "parse an operation expression" in {
+    val input = "(false != 2)"
+    val expected = OperationExpression(BooleanValue(false), NotEquals(), Number(2))
+
+    val output = Parsers.parse(Parsers.expression, input)
+
+    output.successful shouldBe true
+    output.get shouldBe expected
+  }
+
+  it should "parse a value expression" in {
+    val input = "2"
+    val expected = Number(2)
+
+    val output = Parsers.parse(Parsers.expression, input)
+
+    output.successful shouldBe true
+    output.get shouldBe expected
+  }
+
+  it should "fail to parse a non-expression" in {
+    val input = "ksdfoi3"
+
+    val output = Parsers.parse(Parsers.operationExpression, input)
+
+    output.successful shouldBe false
+  }
+
 }
