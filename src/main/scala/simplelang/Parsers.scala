@@ -69,4 +69,12 @@ object Parsers extends RegexParsers {
   def expression: Parser[Expression] = {
     operationExpression | value
   }
+
+  def printStatement: Parser[Statement] = {
+    "print ".r ~ expression ^^ { case _ ~ ex => PrintStatement(ex) }
+  }
+
+  def statement: Parser[Statement] = {
+    printStatement | expression
+  }
 }

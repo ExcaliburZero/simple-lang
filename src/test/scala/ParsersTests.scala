@@ -347,4 +347,55 @@ class ParsersTests extends FlatSpec with Matchers {
     output.successful shouldBe false
   }
 
+  /*
+   * Print Statement
+   */
+  "Parsers.printStatement" should "parse a print statement" in {
+    val input = "print (false != 2)"
+    val expected = PrintStatement(OperationExpression(BooleanValue(false), NotEquals(), Number(2)))
+
+    val output = Parsers.parse(Parsers.printStatement, input)
+
+    output.successful shouldBe true
+    output.get shouldBe expected
+  }
+
+  it should "fail to parse a non-print statement" in {
+    val input = "2"
+
+    val output = Parsers.parse(Parsers.printStatement, input)
+
+    output.successful shouldBe false
+  }
+
+  /*
+   * Statement
+   */
+  "Parsers.statement" should "parse a print statement" in {
+    val input = "print (false != 2)"
+    val expected = PrintStatement(OperationExpression(BooleanValue(false), NotEquals(), Number(2)))
+
+    val output = Parsers.parse(Parsers.statement, input)
+
+    output.successful shouldBe true
+    output.get shouldBe expected
+  }
+
+  it should "parse as expression statement" in {
+    val input = "(false != 2)"
+    val expected = OperationExpression(BooleanValue(false), NotEquals(), Number(2))
+
+    val output = Parsers.parse(Parsers.statement, input)
+
+    output.successful shouldBe true
+    output.get shouldBe expected
+  }
+
+  it should "fail to parse a non-statement" in {
+    val input = "trsdfkjue"
+
+    val output = Parsers.parse(Parsers.statement, input)
+
+    output.successful shouldBe false
+  }
 }

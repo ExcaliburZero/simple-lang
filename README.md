@@ -3,9 +3,9 @@ A parser for a simple language written in Scala.
 
 ## Language Grammar
 ```
-program ::= <statement> <program> ; NIL
+program ::= <statement> "\n" <program> ; NIL
 
-statement ::= <expression> ; "print " <expression>
+statement ::= "print " <expression> ; <expression>
 
 expression ::= "(" <expression> " " <operator> " " <expression> ")" ; <value>
 
